@@ -58,10 +58,17 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void renderPanel() {
-
+        if (graphics2D != null) {
+            graphics2D.setColor(new Color(142, 255, 251));
+            graphics2D.fillRect(0,0,gameWidth,gameHeight);
+        }
     }
 
     public void drawPanel() {
+        Graphics graphicsUpdated = this.getGraphics();
 
+        graphicsUpdated.drawImage(bufferedImage,0,0,gameWidth,gameHeight,null);
+
+        graphicsUpdated.dispose();
     }
 }
