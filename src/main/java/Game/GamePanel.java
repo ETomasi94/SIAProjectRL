@@ -46,11 +46,60 @@ public class GamePanel extends JPanel implements Runnable{
     public void run() {
         initializePanel();
 
+        final double gameFrequency = 60.0;
+        final double timeBeforeUpdate = 100000 / gameFrequency;
+
+        final int mustUpdateBeforeRender = 5;
+
+        double lastUpdateTime = System.nanoTime();
+        double lastRenderTime;
+
+        double targetFPS = 60;
+        double totalTimeBeforeRender = 100000 / targetFPS;
+
+        int frameCount = 0;
+        int lastSecondTime = (int) lastUpdateTime / 100000;
+        int oldFrameCount = 0;
+
+
         while(isRunning) {
-            updatePanel();
+
+            double now = System.nanoTime();
+            int updateCount = 0;
+
+            while(((now - lastUpdateTime) > timeBeforeUpdate) && ((updateCount < mustUpdateBeforeRender))) {
+                updatePanel();
+                input();
+
+                lastUpdateTime += timeBeforeUpdate;
+
+                updateCount++;
+            }
+
+             if ((now - lastUpdateTime) > timeBeforeUpdate) {
+                lastUpdateTime = now - timeBeforeUpdate;
+            }
+             
+             input();
             renderPanel();
             drawPanel();
+
+            lastRenderTime = now;
+            frameCount++;
+
+            int thisSecond = (int) (lastUpdateTime / 100000);
+
+            if (thisSecond > lastSecondTime) {
+                if (frameCount != oldFrameCount) {
+                    System.out.println("NEW SECOND " + thisSecond + " " + frameCount);
+                    oldFrameCount = frameCount;
+                }
+            }
         }
+    }
+
+    public void input() {
+
     }
 
     public void updatePanel() {
