@@ -1,6 +1,12 @@
 package Game.Elements;
 
 public class MainCharacter implements FiringCharacter{
+
+    int posX;
+    int posY;
+    int movementDirection;
+    boolean isAlive;
+
     @Override
     public void fireBullet() {
 
