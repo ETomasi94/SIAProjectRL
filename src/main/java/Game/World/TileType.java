@@ -1,18 +1,25 @@
 package Game.World;
 
+import Tools.ImageLoader;
+
+import java.awt.image.BufferedImage;
+
 public enum TileType {
 
-    Grass("Grass64",true),
-    Dirt("Dirt64",true),
-    Spikes("Spikes64",true),
-    Cloud("Cloud64",true),
-    Sky("Sky64",true);
+    Grass("Grass16",true),
+    Dirt("Dirt16",true),
+    Spikes("Spikes16",true),
+    Cloud("Cloud16",true),
+    Sky("Sky16",true);
 
     String textureName;
     boolean buildableProperty;
+    BufferedImage image;
+    ImageLoader imageLoader = new ImageLoader();
 
     TileType(String nameOfTexture,boolean isBuildable) {
         this.textureName = nameOfTexture;
         this.buildableProperty = isBuildable;
+        this.image = imageLoader.Load(nameOfTexture);
     }
 }
