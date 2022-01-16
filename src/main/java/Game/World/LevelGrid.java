@@ -14,7 +14,7 @@ public class LevelGrid {
 
         for (int i=0; i<levelMap.length; i++) {
             for (int j=0; j<levelMap[i].length; j++) {
-                levelMap[i][j] = new Tile(i*64,j*64,64,64,TileType.Grass);
+                levelMap[i][j] = new Tile(i*16,j*16,16,16,TileType.Grass);
             }
         }
     }
