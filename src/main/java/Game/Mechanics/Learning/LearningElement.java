@@ -1,4 +1,4 @@
-package Game.Mechanics;
+package Game.Mechanics.Learning;
 
 public class LearningElement {
 }
