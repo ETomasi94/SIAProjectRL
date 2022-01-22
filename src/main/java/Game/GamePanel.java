@@ -13,6 +13,7 @@ public class GamePanel extends JPanel implements Runnable{
     private int gameWidth;
     private int gameHeight;
 
+
     private boolean isRunning = false;
 
     public GamePanel(int setWidth,int setHeight) {
@@ -94,11 +95,23 @@ public class GamePanel extends JPanel implements Runnable{
                     System.out.println("NEW SECOND " + thisSecond + " " + frameCount);
                     oldFrameCount = frameCount;
                 }
+                frameCount = 0;
+                lastSecondTime = thisSecond;
             }
-        }
-    }
 
-    public void input() {
+            while (now - lastRenderTime < totalTimeBeforeRender && now - lastUpdateTime < timeBeforeUpdate) {
+                Thread.yield();
+
+                try {
+                    Thread.sleep(1);
+                } catch (Exception e) {
+                    System.out.println("ERROR: yielding thread");
+                }
+
+                now = System.nanoTime();
+            }
+
+        }
 
     }
 
@@ -119,5 +132,9 @@ public class GamePanel extends JPanel implements Runnable{
         graphicsUpdated.drawImage(bufferedImage,0,0,gameWidth,gameHeight,null);
 
         graphicsUpdated.dispose();
+    }
+
+    public void input() {
+
     }
 }
