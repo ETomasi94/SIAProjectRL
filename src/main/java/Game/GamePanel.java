@@ -1,5 +1,9 @@
 package Game;
 
+import Game.Handlers.KeyboardHandler;
+import Game.Handlers.MouseHandler;
+import Game.States.StateManager;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -13,8 +17,11 @@ public class GamePanel extends JPanel implements Runnable{
     private int gameWidth;
     private int gameHeight;
 
+    private StateManager gameStateManager;
 
     private boolean isRunning = false;
+    private MouseHandler gameMouseHandler;
+    private KeyboardHandler gameKeyboardHandler;
 
     public GamePanel(int setWidth,int setHeight) {
 
@@ -41,6 +48,11 @@ public class GamePanel extends JPanel implements Runnable{
         bufferedImage = new BufferedImage(gameWidth,gameHeight,BufferedImage.TYPE_INT_ARGB);
 
         graphics2D = (Graphics2D) bufferedImage.getGraphics();
+
+        gameMouseHandler = new MouseHandler();
+        gameKeyboardHandler = new KeyboardHandler();
+
+        gameStateManager = new StateManager();
     }
 
     @Override
@@ -70,7 +82,7 @@ public class GamePanel extends JPanel implements Runnable{
 
             while(((now - lastUpdateTime) > timeBeforeUpdate) && ((updateCount < mustUpdateBeforeRender))) {
                 updatePanel();
-                input();
+                input(gameMouseHandler,gameKeyboardHandler);
 
                 lastUpdateTime += timeBeforeUpdate;
 
@@ -81,7 +93,7 @@ public class GamePanel extends JPanel implements Runnable{
                 lastUpdateTime = now - timeBeforeUpdate;
             }
              
-             input();
+             input(gameMouseHandler,gameKeyboardHandler);
             renderPanel();
             drawPanel();
 
@@ -116,13 +128,14 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void updatePanel() {
-
+        gameStateManager.update();
     }
 
     public void renderPanel() {
         if (graphics2D != null) {
             graphics2D.setColor(new Color(142, 255, 251));
             graphics2D.fillRect(0,0,gameWidth,gameHeight);
+            gameStateManager.render(graphics2D);
         }
     }
 
@@ -134,7 +147,7 @@ public class GamePanel extends JPanel implements Runnable{
         graphicsUpdated.dispose();
     }
 
-    public void input() {
-
+    public void input(MouseHandler mouseHandler, KeyboardHandler keyboardHandler) {
+        gameStateManager.input(mouseHandler,keyboardHandler);
     }
 }
