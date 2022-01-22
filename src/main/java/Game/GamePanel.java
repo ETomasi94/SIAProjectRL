@@ -50,7 +50,7 @@ public class GamePanel extends JPanel implements Runnable{
         graphics2D = (Graphics2D) bufferedImage.getGraphics();
 
         gameMouseHandler = new MouseHandler();
-        gameKeyboardHandler = new KeyboardHandler();
+        gameKeyboardHandler = new KeyboardHandler(this);
 
         gameStateManager = new StateManager();
     }
