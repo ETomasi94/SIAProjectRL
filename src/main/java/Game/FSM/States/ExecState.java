@@ -1,5 +1,7 @@
-package Game.States;
+package Game.FSM.States;
 
+import Game.FSM.State;
+import Game.FSM.StateManager;
 import Game.Handlers.KeyboardHandler;
 import Game.Handlers.MouseHandler;
 

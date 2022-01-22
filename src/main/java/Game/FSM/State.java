@@ -1,4 +1,4 @@
-package Game.States;
+package Game.FSM;
 
 import Game.Handlers.KeyboardHandler;
 import Game.Handlers.MouseHandler;

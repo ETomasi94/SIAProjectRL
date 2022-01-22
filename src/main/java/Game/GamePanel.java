@@ -3,7 +3,7 @@ package Game;
 
 import Game.Handlers.KeyboardHandler;
 import Game.Handlers.MouseHandler;
-import Game.States.StateManager;
+import Game.FSM.StateManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,8 +15,8 @@ public class GamePanel extends JPanel implements Runnable{
     private BufferedImage bufferedImage;
     private Graphics2D graphics2D;
 
-    private int gameWidth;
-    private int gameHeight;
+    public static int gameWidth;
+    public static int gameHeight;
 
     private StateManager gameStateManager;
 
