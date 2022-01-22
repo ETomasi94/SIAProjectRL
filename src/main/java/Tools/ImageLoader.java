@@ -7,16 +7,33 @@ import java.util.Objects;
 
 public class ImageLoader {
 
+    String texturesFolder = "src/main/resources/Textures/";
+    String spritesFolder = "src/main/resources/Sprites/";
+
     public ImageLoader(){
 
     }
 
-    public BufferedImage Load(String name) {
+    public BufferedImage loadTexture(String name) {
         BufferedImage result = null;
 
         try {
             result = ImageIO.read(Objects
-                    .requireNonNull(getClass().getResourceAsStream("src/main/resources/Textures " + name)));
+                    .requireNonNull(getClass().getResourceAsStream(texturesFolder + name)));
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    public BufferedImage loadSprite(String name) {
+        BufferedImage result = null;
+
+        try {
+            result = ImageIO.read(Objects
+                    .requireNonNull(getClass().getResourceAsStream(spritesFolder + name)));
         }
         catch (IOException e) {
             e.printStackTrace();

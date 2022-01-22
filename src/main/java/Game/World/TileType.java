@@ -20,6 +20,6 @@ public enum TileType {
     TileType(String nameOfTexture,boolean isBuildable) {
         this.textureName = nameOfTexture;
         this.buildableProperty = isBuildable;
-        this.image = imageLoader.Load(nameOfTexture);
+        this.image = imageLoader.loadTexture(nameOfTexture);
     }
 }
