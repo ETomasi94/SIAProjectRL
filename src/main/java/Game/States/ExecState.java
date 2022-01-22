@@ -18,7 +18,9 @@ public class ExecState extends State {
 
     @Override
     public void input(MouseHandler mouseHandler, KeyboardHandler keyboardHandler) {
-
+        if (keyboardHandler.up.isDown) {
+           System.out.println("UP KEY!");
+        }
     }
 
     @Override

@@ -11,28 +11,28 @@ public class KeyboardHandler implements KeyListener{
     public static List<Key> keys = new ArrayList<>();
 
     public static class Key {
-        public int presses, absorbs;
-        public boolean down, clicked;
+        public int timesPressed, timesAbsorbed;
+        public boolean isDown, isClicked;
 
         public Key() {
             keys.add(this);
         }
 
         public void toggle(boolean pressed) {
-            if(pressed != down) {
-                down = pressed;
+            if(pressed != isDown) {
+                isDown = pressed;
             }
             if(pressed) {
-                presses++;
+                timesPressed++;
             }
         }
 
         public void tick() {
-            if(absorbs < presses) {
-                absorbs++;
-                clicked = true;
+            if(timesAbsorbed < timesPressed) {
+                timesAbsorbed++;
+                isClicked = true;
             } else {
-                clicked = false;
+                isClicked = false;
             }
         }
     }
@@ -54,7 +54,7 @@ public class KeyboardHandler implements KeyListener{
 
     public void releaseAll() {
         for (Key key : keys) {
-            key.down = false;
+            key.isDown = false;
         }
     }
 
