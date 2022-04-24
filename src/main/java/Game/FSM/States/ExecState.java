@@ -9,13 +9,15 @@ import java.awt.*;
 
 public class ExecState extends State {
 
+    private Game.World.Font font;
+
     public ExecState(StateManager stateManager) {
         super(stateManager);
+        font = new Game.World.Font("Fonts/galaxyfont.png",16,16);
     }
 
     @Override
     public void update() {
-
     }
 
     @Override
