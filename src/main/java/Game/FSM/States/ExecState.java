@@ -29,7 +29,5 @@ public class ExecState extends State {
 
     @Override
     public void render(Graphics2D graphics2D) {
-        graphics2D.setColor(Color.RED);
-        graphics2D.fillRect(100,100,64,64);
     }
 }
