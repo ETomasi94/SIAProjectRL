@@ -4,7 +4,6 @@ import Game.Handlers.KeyboardHandler;
 import Game.Handlers.MouseHandler;
 import Game.World.Animation;
 import Game.World.Sprite;
-import Game.World.SpriteSheet;
 import Tools.Collision;
 import org.newdawn.slick.geom.Vector2f;
 
@@ -54,6 +53,7 @@ public abstract class Character {
         hitBox = new Collision(new Vector2f(origin.x + (size/2), origin.y),size,size);
 
         characterAnimation = new Animation();
+        setAnimation(RIGHT,characterSprite.getSpriteArray(RIGHT),10);
 
     }
 
@@ -86,7 +86,7 @@ public abstract class Character {
     public Collision getBounds() {
         return collisionBounds;}
 
-    public void setAnimation(int i, Sprite[] frames, int delay) {
+    public void setAnimation(int i, BufferedImage[] frames, int delay) {
         currentCharacterAnimation = i;
         characterAnimation.setFrames(frames);
         characterAnimation.setDelay(delay);

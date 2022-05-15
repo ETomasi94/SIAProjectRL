@@ -25,16 +25,14 @@ public class ExecState extends State {
 
     @Override
     public void update() {
-        mainCharacter.update();
+
     }
 
     @Override
     public void input(MouseHandler mouseHandler, KeyboardHandler keyboardHandler) {
-        mainCharacter.input(mouseHandler,keyboardHandler);
     }
 
     @Override
-    public void render(Graphics2D graphics2D) {
-        mainCharacter.render(graphics2D);
+    public void render(Graphics2D graphics2D){
     }
 }

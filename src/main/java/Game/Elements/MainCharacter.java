@@ -181,6 +181,6 @@ public class MainCharacter extends Character implements FiringCharacter{
 
     @Override
     public void render(Graphics2D g) {
-        g.drawImage(characterAnimation.getImage().image,(int) characterPosition.x, (int) characterPosition.y,characterSize,characterSize,null);
+        g.drawImage(characterAnimation.getImage(),(int) characterPosition.x, (int) characterPosition.y,characterSize,characterSize,null);
     }
 }

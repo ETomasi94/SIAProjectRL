@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 
 public class Animation {
 
-    private Sprite[] frames;
+    private BufferedImage[] frames;
     private int[] states;
     private int currentFrame;
     private int numFrames;
@@ -14,7 +14,7 @@ public class Animation {
 
     private int timesPlayed;
 
-    public Animation(Sprite[] frames) {
+    public Animation(BufferedImage[] frames) {
         setFrames(0, frames);
         timesPlayed = 0;
         states = new int[10];
@@ -25,7 +25,7 @@ public class Animation {
         states = new int[10];
     }
 
-    public void setFrames(int state, Sprite[] frames) {
+    public void setFrames(int state, BufferedImage[] frames) {
         this.frames = frames;
         currentFrame = 0;
         count = 0;
@@ -60,10 +60,10 @@ public class Animation {
     public int getDelay() { return delay; }
     public int getFrame() { return currentFrame; }
     public int getCount() { return count; }
-    public Sprite getImage() { return frames[currentFrame]; }
+    public BufferedImage getImage() { return frames[currentFrame]; }
     public boolean hasPlayedOnce() { return timesPlayed > 0; }
     public boolean hasPlayed(int i) { return timesPlayed == i; }
 
-    public void setFrames(Sprite[] frames) {
+    public void setFrames(BufferedImage[] frames) {
     }
 }
