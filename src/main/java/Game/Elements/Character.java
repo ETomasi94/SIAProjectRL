@@ -19,7 +19,7 @@ public abstract class Character {
     private final int LEFT = 3;
     private final int FIRE = 4;
 
-    protected SpriteSheet characterSprite;
+    protected Sprite characterSprite;
     protected Vector2f characterPosition;
     protected int characterSize;
     protected Animation characterAnimation;
@@ -45,7 +45,7 @@ public abstract class Character {
     protected Collision hitBox;
     protected Collision collisionBounds;
 
-    public Character(SpriteSheet sprite, Vector2f origin, int size){
+    public Character(Sprite sprite, Vector2f origin, int size){
         this.characterSprite = sprite;
         this.characterPosition = origin;
         this.characterSize = size;
@@ -64,8 +64,27 @@ public abstract class Character {
     public Animation getCharacterAnimation() {return characterAnimation;}
 
     public void setSprite(Sprite sprite) {
-
+        this.characterSprite = sprite;
     }
+
+    public void setSize(int i) {
+        this.characterSize = i;
+    }
+
+    public void setMaxSpeed(float maxSpeed) {
+        this.maxSpeed = maxSpeed;
+    }
+
+    public void setAcceleration(float acceleration) {
+        this.acceleration = acceleration;
+    }
+
+    public void setDeacceleration(float deacceleration) {
+        this.deacceleration = deacceleration;
+    }
+
+    public Collision getBounds() {
+        return collisionBounds;}
 
     public void setAnimation(int i, Sprite[] frames, int delay) {
         currentCharacterAnimation = i;
@@ -104,8 +123,8 @@ public abstract class Character {
             collisionBounds.setYOffset(-characterSize/2);
             collisionBounds.setXOffset(-characterSize/2);
         }else if(down) {
-            collisionBounds.setXOffset(characterSize/2);
-            collisionBounds.setYOffset(-characterSize/2);
+            collisionBounds.setXOffset(-characterSize/2);
+            collisionBounds.setYOffset(characterSize/2);
         } else if(left) {
             collisionBounds.setXOffset(-characterSize);
             collisionBounds.setYOffset(0);

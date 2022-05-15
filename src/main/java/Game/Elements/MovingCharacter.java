@@ -14,5 +14,13 @@ public interface MovingCharacter {
 
     void moveRight();
 
+    void stopIfUp();
+
+    void stopIfDown();
+
+    void stopIfLeft();
+
+    void stopIfRight();
+
     void physicalAttack();
 }
