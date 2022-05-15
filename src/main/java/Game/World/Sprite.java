@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Sprite {
     private BufferedImage spriteSheet = null;
@@ -103,15 +104,14 @@ public class Sprite {
     }
 
     private BufferedImage loadSprite(String spriteFile) {
-        BufferedImage currentSprite = null;
-
         try {
-            currentSprite = ImageIO.read(getClass().getClassLoader().getResourceAsStream(spriteFile));
-        } catch (IOException e) {
+            BufferedImage currentSprite = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(spriteFile)));
+            return currentSprite;
+        } catch (Exception e) {
             System.out.println("ERROR: Impossible loading file" + spriteFile);
         }
 
-        return currentSprite;
+        return null;
     }
 
     public void loadSpriteArray() {
