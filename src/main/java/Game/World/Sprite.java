@@ -1,9 +1,20 @@
 package Game.World;
 
+import org.newdawn.slick.geom.Vector2f;
+
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.nio.Buffer;
+import java.util.ArrayList;
+import java.util.Vector;
 
 public class Sprite {
+    private BufferedImage spriteSheet = null;
+    private BufferedImage[][] spriteArray;
+    private final int TILE_SIZE = 32;
+
     public BufferedImage image;
 
     private int[] pixels;
@@ -11,8 +22,8 @@ public class Sprite {
 
     private int w;
     private int h;
-
-    public static enum effect {NORMAL, SEPIA, REDISH, GRAYSCALE, NEGATIVE, DECAY};
+    private int wSprite;
+    private int hSprite;
 
     private float[][] id = {{1.0f, 0.0f, 0.0f},
             {0.0f, 1.0f, 0.0f},
@@ -46,122 +57,115 @@ public class Sprite {
 
     private float[][] currentEffect = id;
 
-    public Sprite(BufferedImage image) {
-        this.image = image;
-        this.w = image.getWidth();
-        this.h = image.getHeight();
-        ogpixels = image.getRGB(0, 0, w, h, ogpixels, 0, w);
-        pixels = ogpixels;
+    public Sprite(String spriteFile) {
+        w = TILE_SIZE;
+        h = TILE_SIZE;
+
+        spriteSheet = loadSprite(spriteFile);
+
+        wSprite = spriteSheet.getWidth() / w;
+        hSprite = spriteSheet.getHeight() / h;
+
+        loadSpriteArray();
     }
 
-    public int getWidth() { return w; }
-    public int getHeight() { return h; }
+    public Sprite(String spriteFile, int spriteWidth, int spriteHeight) {
+        this.w = spriteWidth;
+        this.h = spriteHeight;
 
-    public void saveColors() {
-        pixels = image.getRGB(0, 0, w, h, pixels, 0, w);
-        currentEffect = id;
+        spriteSheet = loadSprite(spriteFile);
+
+        wSprite = spriteSheet.getWidth() / w;
+        hSprite = spriteSheet.getHeight() / h;
+
+        loadSpriteArray();
     }
 
-    public void restoreColors() {
-        image.setRGB(0, 0, w, h, pixels, 0, w);
+    public void setSize(int width, int height) {
+        setWidth(width);
+        setHeight(height);
     }
 
-    public void restoreDefault() {
-        image.setRGB(0, 0, w, h, ogpixels, 0, w);
+    private void setHeight(int height) {
+        this.h = height;
+        wSprite = spriteSheet.getWidth() / w;
     }
 
-    // in #FFFFFF format
-    public Color hexToColor(String color) {
-        return new Color(
-                Integer.valueOf(color.substring(1, 3), 16),
-                Integer.valueOf(color.substring(3, 5), 16),
-                Integer.valueOf(color.substring(5, 7), 16));
+    private void setWidth(int width) {
+        this.w = width;
+        hSprite = spriteSheet.getHeight() / h;
     }
 
-    public void setContrast(float value) {
-        float[][] effect = id;
-        float contrast = (259 * (value + 255)) / (255 * (259 - value));
-        for(int i = 0; i < 3; i++) {
-            if(i < 3)
-                effect[i][i] = contrast;
-            effect[3][i] = 128 * (1 - contrast);
+    public int getWidth() {
+        return w;
+    }
+
+    public int getHeight() {
+        return h;
+    }
+
+    private BufferedImage loadSprite(String spriteFile) {
+        BufferedImage currentSprite = null;
+
+        try {
+            currentSprite = ImageIO.read(getClass().getClassLoader().getResourceAsStream(spriteFile));
+        } catch (IOException e) {
+            System.out.println("ERROR: Impossible loading file" + spriteFile);
         }
 
-        addEffect(effect);
+        return currentSprite;
     }
 
-    public void setBrightness(float value) {
-        float[][] effect = id;
-        for(int i = 0; i < 3; i++)
-            effect[3][i] = value;
+    public void loadSpriteArray() {
+        spriteArray = new BufferedImage[wSprite][hSprite];
 
-        addEffect(effect);
-    }
-
-    public void setEffect(effect e) {
-        float[][] effect;
-        switch (e) {
-            case SEPIA: effect = sepia;
-                break;
-            case REDISH: effect = redish;
-                break;
-            case GRAYSCALE: effect = grayscale;
-                break;
-            case NEGATIVE: effect = negative;
-                break;
-            case DECAY: effect = decay;
-                break;
-            default: effect = id;
-        }
-
-        if(effect != currentEffect) {
-            addEffect(effect);
-        }
-    }
-
-    private void addEffect(float[][] effect) {
-        float[][] rgb = new float[1][4];
-        float[][] xrgb;
-        for(int x = 0; x < w; x++) {
-            for(int y = 0; y < h; y++) {
-                int p = pixels[x + y * w];
-
-                int a = (p >> 24) & 0xff;
-
-                rgb[0][0] = (p >> 16) & 0xff;
-                rgb[0][1] = (p >> 8) & 0xff;
-                rgb[0][2] = (p) & 0xff;
-                rgb[0][3] = 1f;
-
-                xrgb = Matrix.multiply(rgb, effect);
-
-                for(int i = 0; i < 3; i++) {
-                    if(xrgb[0][i] > 255) rgb[0][i] = 255;
-                    else if(xrgb[0][i] < 0) rgb[0][i] = 0;
-                    else rgb[0][i] = xrgb[0][i];
-                }
-
-                p = (a<<24) | ((int) rgb[0][0]<<16) | ((int) rgb[0][1]<<8) | (int) rgb[0][2];
-                image.setRGB(x, y, p);
+        for (int i = 0; i < wSprite; i++) {
+            for (int j = 0; j < hSprite; j++) {
+                spriteArray[i][j] = getSprite(i, j);
             }
         }
-        currentEffect = effect;
     }
 
-
-    public Sprite getSubimage(int x, int y, int w, int h) {
-        return new Sprite(image.getSubimage(x, y, w, h));
+    public BufferedImage getSpriteSheet() {
+        return spriteSheet;
     }
 
-    public Sprite getNewSubimage(int x, int y, int w, int h) {
-        BufferedImage temp = image.getSubimage(x, y, w, h);
-        BufferedImage newImage = new BufferedImage(image.getColorModel(), image.getRaster().createCompatibleWritableRaster(w,h), image.isAlphaPremultiplied(), null);
-        temp.copyData(newImage.getRaster());
-        return new Sprite(newImage);
+    public BufferedImage getSprite(int i, int j) {
+        return spriteSheet.getSubimage(i * w, j * h, w, h)
     }
 
-    public Sprite getNewSubimage() {
-        return getNewSubimage(0, 0, this.w, this.h);
+    public BufferedImage[] getSpriteArray(int i) {
+        return spriteArray[i];
     }
 
+    public BufferedImage[][] getAllSpriteArray(int i) {
+        return spriteArray;
+    }
+
+    public static void drawArray(Graphics2D graphics2D, ArrayList<BufferedImage> spriteImages, Vector2f position, int width, int height, int xOffset, int yOffset) {
+        float x = position.x;
+        float y = position.y;
+
+
+        for (int i = 0; i < spriteImages.size(); i++) {
+            graphics2D.drawImage(spriteImages.get(i), (int) x, (int) y, width, height, null);
+        }
+
+        x += xOffset;
+        y += yOffset;
+    }
+
+    public static void drawArray(Graphics2D graphics2D, Font f, String word, Vector2f position, int width, int height, int xOffset, int yOffset) {
+        float x = position.x;
+        float y = position.y;
+
+        for(int i = 0; i < word.length(); i++) {
+            if(word.charAt(i) != 32) {
+                graphics2D.drawImage(f.getLetter(word.charAt(i)), (int) x,(int) y, width, height, null);
+            }
+
+            x += xOffset;
+            y += yOffset;
+        }
+    }
 }
