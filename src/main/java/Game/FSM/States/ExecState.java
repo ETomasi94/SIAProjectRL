@@ -20,21 +20,21 @@ public class ExecState extends State {
     public ExecState(StateManager stateManager) {
         super(stateManager);
         font = new Game.World.Font("Fonts/galaxyfont.png",16,16);
-        MainCharacter = new MainCharacter(new Sprite(new ImageLoader().loadSprite("Elements/Idle.png")),new Vector2f(300,300),32);
+        MainCharacter mainCharacter = new MainCharacter(new Sprite(new ImageLoader().loadSprite("Elements/Idle.png")),new Vector2f(300,300),32);
     }
 
     @Override
     public void update() {
+        mainCharacter.update();
     }
 
     @Override
     public void input(MouseHandler mouseHandler, KeyboardHandler keyboardHandler) {
-        if (keyboardHandler.up.isDown) {
-           System.out.println("UP KEY!");
-        }
+        mainCharacter.input(mouseHandler,keyboardHandler);
     }
 
     @Override
     public void render(Graphics2D graphics2D) {
+        mainCharacter.render(graphics2D);
     }
 }
