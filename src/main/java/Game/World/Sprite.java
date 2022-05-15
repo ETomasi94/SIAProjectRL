@@ -6,9 +6,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.nio.Buffer;
 import java.util.ArrayList;
-import java.util.Vector;
 
 public class Sprite {
     private BufferedImage spriteSheet = null;
@@ -131,7 +129,7 @@ public class Sprite {
     }
 
     public BufferedImage getSprite(int i, int j) {
-        return spriteSheet.getSubimage(i * w, j * h, w, h)
+        return spriteSheet.getSubimage(i * w, j * h, w, h);
     }
 
     public BufferedImage[] getSpriteArray(int i) {

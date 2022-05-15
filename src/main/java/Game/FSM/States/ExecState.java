@@ -20,7 +20,7 @@ public class ExecState extends State {
     public ExecState(StateManager stateManager) {
         super(stateManager);
         font = new Game.World.Font("Fonts/galaxyfont.png",16,16);
-        MainCharacter mainCharacter = new MainCharacter(new Sprite(new ImageLoader().loadSprite("Elements/Idle.png")),new Vector2f(300,300),32);
+        MainCharacter mainCharacter = new MainCharacter(new Sprite("Elements/Idle.png"),new Vector2f(300,300),32);
     }
 
     @Override
